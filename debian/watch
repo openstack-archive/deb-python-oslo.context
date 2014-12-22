@@ -1,0 +1,2 @@
+version=3
+http://pypi.python.org/packages/source/o/oslo.context/ oslo.context-(.*).tar.gz

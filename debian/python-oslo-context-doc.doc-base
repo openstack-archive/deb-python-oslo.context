@@ -1,0 +1,9 @@
+Document: oslo-context-doc
+Title: oslo-context Documentation
+Author: N/A
+Abstract: Sphinx documentation for oslo-context
+Section: Programming/Python
+
+Format: HTML
+Index: /usr/share/doc/python-oslo-context-doc/html/index.html
+Files: /usr/share/doc/python-oslo-context-doc/html/*

@@ -1,0 +1,5 @@
+python-oslo-context (0.1.0-1) unstable; urgency=medium
+
+  * Initial release (Closes: #773622).
+
+ -- Thomas Goirand <zigo@debian.org>  Sun, 21 Dec 2014 10:05:58 +0800
