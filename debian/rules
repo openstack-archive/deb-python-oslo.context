@@ -13,11 +13,11 @@ export OSLO_PACKAGE_VERSION=$(VERSION)
 override_dh_install:
 	set -e && for pyvers in $(PYTHONS); do \
 		python$$pyvers setup.py install --install-layout=deb \
-			--root $(CURDIR)/debian/python-oslo-context; \
+			--root $(CURDIR)/debian/python-oslo.context; \
 	done
 	set -e && for pyvers in $(PYTHON3S); do \
 		python$$pyvers setup.py install --install-layout=deb \
-			--root $(CURDIR)/debian/python3-oslo-context; \
+			--root $(CURDIR)/debian/python3-oslo.context; \
 	done
 	rm -f $(CURDIR)/debian/python*-oslo-context/usr/lib/python*/dist-packages/*.pth
 
