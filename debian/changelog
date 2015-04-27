@@ -1,8 +1,9 @@
-python-oslo-context (0.2.0-2) UNRELEASED; urgency=medium
+python-oslo-context (0.2.0-2) unstable; urgency=medium
 
+  * Uploading to unstable.
   * Fixed (build-)depends.
 
- -- Thomas Goirand <zigo@debian.org>  Mon, 20 Apr 2015 09:16:47 +0200
+ -- Thomas Goirand <zigo@debian.org>  Mon, 27 Apr 2015 13:06:13 +0000
 
 python-oslo-context (0.2.0-1) experimental; urgency=medium
 
