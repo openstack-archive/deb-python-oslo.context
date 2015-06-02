@@ -1,8 +1,10 @@
-python-oslo-context (0.3.0-1) UNRELEASED; urgency=medium
+python-oslo.context (0.3.0-1) UNRELEASED; urgency=medium
 
   * Team upload.
   * New upstream release:
     - d/control: Align version requirements with upstream.
+  * Rename package to python-oslo.context:
+    - d/control: Update Vcs fields.
 
  -- James Page <james.page@ubuntu.com>  Tue, 02 Jun 2015 15:55:42 +0100
 
