@@ -1,3 +1,11 @@
+python-oslo-context (0.3.0-1) UNRELEASED; urgency=medium
+
+  * Team upload.
+  * New upstream release:
+    - d/control: Align version requirements with upstream.
+
+ -- James Page <james.page@ubuntu.com>  Tue, 02 Jun 2015 15:55:42 +0100
+
 python-oslo-context (0.2.0-2) unstable; urgency=medium
 
   * Uploading to unstable.
