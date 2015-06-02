@@ -5,6 +5,12 @@ python-oslo.context (0.3.0-1) UNRELEASED; urgency=medium
     - d/control: Align version requirements with upstream.
   * Rename package to python-oslo.context:
     - d/control: Update Vcs fields.
+  * Re-align with Ubuntu:
+    - d/control: Update Breaks/Replaces for Ubuntu *oslo-context packages.
+    - d/control: Add full transitional packages for *oslo-context.
+    - d/control,python-oslo.context-doc.docbase:
+      Rename python-oslo-context-doc -> python-oslo.context-doc, update
+      for new package naming.
 
  -- James Page <james.page@ubuntu.com>  Tue, 02 Jun 2015 15:55:42 +0100
 

@@ -38,7 +38,7 @@ ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
 endif
 
 override_dh_sphinxdoc:
-	PYTHONPATH=. sphinx-build -b html doc/source debian/python-oslo-context-doc/usr/share/doc/python-oslo-context-doc/html
+	PYTHONPATH=. sphinx-build -b html doc/source debian/python-oslo.context-doc/usr/share/doc/python-oslo.context-doc/html
 	dh_sphinxdoc -O--buildsystem=python_distutils
 
 # Commands not to run
