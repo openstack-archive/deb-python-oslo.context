@@ -1,4 +1,4 @@
-python-oslo.context (0.3.0-1) UNRELEASED; urgency=medium
+python-oslo.context (0.3.0-1) experimental; urgency=medium
 
   * Team upload.
   * New upstream release:
@@ -12,7 +12,7 @@ python-oslo.context (0.3.0-1) UNRELEASED; urgency=medium
       Rename python-oslo-context-doc -> python-oslo.context-doc, update
       for new package naming.
 
- -- James Page <james.page@ubuntu.com>  Tue, 02 Jun 2015 15:55:42 +0100
+ -- James Page <james.page@ubuntu.com>  Tue, 02 Jun 2015 16:18:15 +0100
 
 python-oslo-context (0.2.0-2) unstable; urgency=medium
 
