@@ -78,7 +78,7 @@ Architecture: all
 Depends: python-oslo.context,
          ${misc:Depends},
 Description: transitional dummy package for python-oslo-context.
- This transtional package is safe to remove.
+ This transitional package is safe to remove.
 
 Package: python-oslo-context-doc
 Section: oldlibs
@@ -86,7 +86,7 @@ Architecture: all
 Depends: python-oslo.context-doc,
          ${misc:Depends},
 Description: transitional dummy package for python-oslo-context-doc.
- This transtional package is safe to remove.
+ This transitional package is safe to remove.
 
 Package: python3-oslo-context
 Section: oldlibs
@@ -94,4 +94,4 @@ Architecture: all
 Depends: python3-oslo.context,
          ${misc:Depends},
 Description: transitional dummy package for python3-oslo-context.
- This transtional package is safe to remove.
+ This transitional package is safe to remove.
