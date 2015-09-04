@@ -74,24 +74,27 @@ Description: WSGI context helpers for OpenStack - doc
 
 Package: python-oslo-context
 Section: oldlibs
+Priority: extra
 Architecture: all
 Depends: python-oslo.context,
          ${misc:Depends},
-Description: transitional dummy package for python-oslo-context.
+Description: transitional dummy package for python-oslo-context
  This transitional package is safe to remove.
 
 Package: python-oslo-context-doc
 Section: oldlibs
+Priority: extra
 Architecture: all
 Depends: python-oslo.context-doc,
          ${misc:Depends},
-Description: transitional dummy package for python-oslo-context-doc.
+Description: transitional dummy package for python-oslo-context-doc
  This transitional package is safe to remove.
 
 Package: python3-oslo-context
 Section: oldlibs
+Priority: extra
 Architecture: all
 Depends: python3-oslo.context,
          ${misc:Depends},
-Description: transitional dummy package for python3-oslo-context.
+Description: transitional dummy package for python3-oslo-context
  This transitional package is safe to remove.
