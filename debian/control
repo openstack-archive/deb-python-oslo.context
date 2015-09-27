@@ -8,11 +8,11 @@ Build-Depends: debhelper (>= 9~),
                dh-python,
                openstack-pkg-tools,
                python-all,
-               python-pbr (>= 1.6),
+               python-pbr (>= 1.8),
                python-setuptools,
                python-sphinx,
                python3-all,
-               python3-pbr (>= 1.6),
+               python3-pbr (>= 1.8),
                python3-setuptools,
 Build-Depends-Indep: python-babel,
                      python-coverage,
@@ -31,7 +31,7 @@ Homepage: https://github.com/openstack/oslo.context
 Package: python-oslo.context
 Architecture: all
 Depends: python-babel,
-         python-pbr (>= 1.6),
+         python-pbr (>= 1.8),
          ${misc:Depends},
          ${python:Depends},
 Provides: python-oslo-context,
@@ -47,7 +47,7 @@ Description: WSGI context helpers for OpenStack - Python 2.x
 Package: python3-oslo.context
 Architecture: all
 Depends: python-babel,
-         python3-pbr (>= 1.6),
+         python3-pbr (>= 1.8),
          ${misc:Depends},
          ${python:Depends},
 Provides: python3-oslo-context,
@@ -79,7 +79,8 @@ Architecture: all
 Depends: python-oslo.context,
          ${misc:Depends},
 Description: transitional dummy package for python-oslo-context
- This transitional package is safe to remove.
+ This transitional package is safe to remove and use python-oslo.context
+ instead.
 
 Package: python-oslo-context-doc
 Section: oldlibs
@@ -88,7 +89,8 @@ Architecture: all
 Depends: python-oslo.context-doc,
          ${misc:Depends},
 Description: transitional dummy package for python-oslo-context-doc
- This transitional package is safe to remove.
+ This transitional package is safe to remove and use python-oslo.context-doc
+ instead.
 
 Package: python3-oslo-context
 Section: oldlibs
@@ -97,4 +99,5 @@ Architecture: all
 Depends: python3-oslo.context,
          ${misc:Depends},
 Description: transitional dummy package for python3-oslo-context
- This transitional package is safe to remove.
+ This transitional package is safe to remove and use python3-oslo.context
+ instead.
