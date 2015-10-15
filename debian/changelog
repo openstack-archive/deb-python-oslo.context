@@ -1,3 +1,9 @@
+python-oslo.context (0.6.0-2) unstable; urgency=medium
+
+  * Uploading to unstable.
+
+ -- Thomas Goirand <zigo@debian.org>  Thu, 15 Oct 2015 19:30:20 +0000
+
 python-oslo.context (0.6.0-1) experimental; urgency=medium
 
   * New upstream release.
