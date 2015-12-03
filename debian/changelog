@@ -1,6 +1,7 @@
 python-oslo.context (1.0.0-1) experimental; urgency=medium
 
   * New upstream release.
+  * Removed privacy breach image links.
 
  -- Thomas Goirand <zigo@debian.org>  Tue, 01 Dec 2015 11:02:38 +0100
 
