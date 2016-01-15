@@ -1,3 +1,9 @@
+python-oslo.context (1.0.1-1) experimental; urgency=medium
+
+  * New upstream release.
+
+ -- Thomas Goirand <zigo@debian.org>  Fri, 15 Jan 2016 03:54:25 +0000
+
 python-oslo.context (1.0.0-1) experimental; urgency=medium
 
   * New upstream release.
