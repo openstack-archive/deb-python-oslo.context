@@ -14,12 +14,19 @@
 #    under the License.
 
 """
-Simple class that stores security context information in the web request.
+Base class for holding contextual information of a request
+
+This class has several uses:
+
+* Used for storing security information in a web request.
+* Used for passing contextual details to oslo.log.
 
 Projects should subclass this class if they wish to enhance the request
-context or provide additional information in their specific WSGI pipeline.
+context or provide additional information in their specific WSGI pipeline
+or logging context.
 """
 
+import inspect
 import itertools
 import threading
 import uuid
@@ -29,7 +36,8 @@ _request_store = threading.local()
 
 
 def generate_request_id():
-    return b'req-' + str(uuid.uuid4()).encode('ascii')
+    """Generate a unique request id."""
+    return 'req-%s' % uuid.uuid4()
 
 
 class RequestContext(object):
@@ -68,9 +76,11 @@ class RequestContext(object):
             self.update_store()
 
     def update_store(self):
+        """Store the context in the current thread."""
         _request_store.context = self
 
     def to_dict(self):
+        """Return a dictionary of context attributes."""
         user_idt = (
             self.user_idt_format.format(user=self.user or '-',
                                         tenant=self.tenant or '-',
@@ -91,20 +101,49 @@ class RequestContext(object):
                 'resource_uuid': self.resource_uuid,
                 'user_identity': user_idt}
 
+    def get_logging_values(self):
+        """Return a dictionary of logging specific context attributes."""
+        # Define these attributes so that oslo.log does not throw an exception
+        # if used in any formatting strings
+        values = {'instance': '',
+                  'resource': '',
+                  'user_name': '',
+                  'project_name': '',
+                  'color': ''}
+        values.update(self.to_dict())
+
+        return values
+
     @classmethod
-    def from_dict(cls, ctx):
-        return cls(
-            auth_token=ctx.get("auth_token"),
-            user=ctx.get("user"),
-            tenant=ctx.get("tenant"),
-            domain=ctx.get("domain"),
-            user_domain=ctx.get("user_domain"),
-            project_domain=ctx.get("project_domain"),
-            is_admin=ctx.get("is_admin", False),
-            read_only=ctx.get("read_only", False),
-            show_deleted=ctx.get("show_deleted", False),
-            request_id=ctx.get("request_id"),
-            resource_uuid=ctx.get("resource_uuid"))
+    def from_dict(cls, values):
+        """Construct a context object from a provided dictionary."""
+        allowed = [arg for arg in
+                   inspect.getargspec(RequestContext.__init__).args
+                   if arg != 'self']
+        kwargs = {k: v for (k, v) in values.items() if k in allowed}
+        return cls(**kwargs)
+
+    @classmethod
+    def from_environ(cls, environ, **kwargs):
+        """Load a context object from a request environment.
+
+        If keyword arguments are provided then they override the values in the
+        request environment.
+
+        :param environ: The environment dictionary associated with a request.
+        :type environ: dict
+        """
+        # Load a new context object from the environment variables set by
+        # auth_token middleware. See:
+        # http://docs.openstack.org/developer/keystonemiddleware/api/keystonemiddleware.auth_token.html#what-auth-token-adds-to-the-request-for-use-by-the-openstack-service
+        kwargs.setdefault('auth_token', environ.get('HTTP_X_AUTH_TOKEN'))
+        kwargs.setdefault('user', environ.get('HTTP_X_USER_ID'))
+        kwargs.setdefault('tenant', environ.get('HTTP_X_PROJECT_ID'))
+        kwargs.setdefault('user_domain', environ.get('HTTP_X_USER_DOMAIN_ID'))
+        kwargs.setdefault('project_domain',
+                          environ.get('HTTP_X_PROJECT_DOMAIN_ID'))
+
+        return cls(**kwargs)
 
 
 def get_admin_context(show_deleted=False):
@@ -133,7 +172,7 @@ def get_context_from_function_and_args(function, args, kwargs):
 
 def is_user_context(context):
     """Indicates if the request context is a normal user."""
-    if not context:
+    if not context or not isinstance(context, RequestContext):
         return False
     if context.is_admin:
         return False
