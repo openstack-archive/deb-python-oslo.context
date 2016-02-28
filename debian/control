@@ -24,8 +24,8 @@ Build-Depends-Indep: python-babel,
                      subunit,
                      testrepository,
 Standards-Version: 3.9.6
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=openstack/python-oslo.context.git;a=summary
-Vcs-Git: git://anonscm.debian.org/openstack/python-oslo.context.git
+Vcs-Browser: https://anonscm.debian.org/cgit/openstack/python-oslo.context.git/
+Vcs-Git: https://anonscm.debian.org/git/openstack/python-oslo.context.git
 Homepage: https://github.com/openstack/oslo.context
 
 Package: python-oslo.context
