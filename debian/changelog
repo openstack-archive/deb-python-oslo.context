@@ -1,12 +1,12 @@
-python-oslo.context (2.1.0-1) UNRELEASED; urgency=medium
-
-  [ David Della Vecchia ]
-  * New upstream release.
+python-oslo.context (2.2.0-1) experimental; urgency=medium
 
   [ Ondřej Nový ]
   * Fixed VCS URLs (https).
 
- -- David Della Vecchia <ddv@canonical.com>  Wed, 24 Feb 2016 11:07:03 -0500
+  [ Thomas Goirand ]
+  * New upstream release.
+
+ -- Thomas Goirand <zigo@debian.org>  Wed, 02 Mar 2016 12:04:03 +0000
 
 python-oslo.context (1.0.1-1) experimental; urgency=medium
 
