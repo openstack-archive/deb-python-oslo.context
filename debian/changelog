@@ -5,6 +5,7 @@ python-oslo.context (2.2.0-1) experimental; urgency=medium
 
   [ Thomas Goirand ]
   * New upstream release.
+  * Fixed debian/copyright ordering.
 
  -- Thomas Goirand <zigo@debian.org>  Wed, 02 Mar 2016 12:04:03 +0000
 

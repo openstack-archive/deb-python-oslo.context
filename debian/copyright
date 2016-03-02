@@ -2,14 +2,14 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: oslo.context
 Source: git://github.com/openstack/oslo.context.git
 
-Files: debian/*
-Copyright: 2014, James Page <james.page@canonical.com>,
-           2014, Thomas Goirand <zigo@debian.org>
-License: Apache-2
-
 Files: *
 Copyright: 2013-2014, OpenStack,
            2013, Hewlett-Packard Development Company, L.P
+License: Apache-2
+
+Files: debian/*
+Copyright: 2014, James Page <james.page@canonical.com>,
+           2014-2016, Thomas Goirand <zigo@debian.org>
 License: Apache-2
 
 License: Apache-2
