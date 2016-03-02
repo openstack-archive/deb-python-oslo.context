@@ -135,12 +135,14 @@ class ContextTest(test_base.BaseTestCase):
         project_id = uuid.uuid4().hex
         user_domain_id = uuid.uuid4().hex
         project_domain_id = uuid.uuid4().hex
+        roles = [uuid.uuid4().hex, uuid.uuid4().hex, uuid.uuid4().hex]
 
         environ = {'HTTP_X_AUTH_TOKEN': auth_token,
                    'HTTP_X_USER_ID': user_id,
                    'HTTP_X_PROJECT_ID': project_id,
                    'HTTP_X_USER_DOMAIN_ID': user_domain_id,
-                   'HTTP_X_PROJECT_DOMAIN_ID': project_domain_id}
+                   'HTTP_X_PROJECT_DOMAIN_ID': project_domain_id,
+                   'HTTP_X_ROLES': ','.join(roles)}
 
         ctx = context.RequestContext.from_environ(environ)
 
@@ -149,6 +151,14 @@ class ContextTest(test_base.BaseTestCase):
         self.assertEqual(project_id, ctx.tenant)
         self.assertEqual(user_domain_id, ctx.user_domain)
         self.assertEqual(project_domain_id, ctx.project_domain)
+        self.assertEqual(roles, ctx.roles)
+
+    def test_from_environ_no_roles(self):
+        ctx = context.RequestContext.from_environ(environ={})
+        self.assertEqual([], ctx.roles)
+
+        ctx = context.RequestContext.from_environ(environ={'HTTP_X_ROLES': ''})
+        self.assertEqual([], ctx.roles)
 
     def test_from_function_and_args(self):
         ctx = context.RequestContext(user="user1")
@@ -214,6 +224,7 @@ class ContextTest(test_base.BaseTestCase):
         self.assertIn('request_id', d)
         self.assertIn('resource_uuid', d)
         self.assertIn('user_identity', d)
+        self.assertIn('roles', d)
 
         self.assertEqual(auth_token, d['auth_token'])
         self.assertEqual(tenant, d['tenant'])
@@ -228,6 +239,7 @@ class ContextTest(test_base.BaseTestCase):
         user_identity = "%s %s %s %s %s" % (user, tenant, domain,
                                             user_domain, project_domain)
         self.assertEqual(user_identity, d['user_identity'])
+        self.assertEqual([], d['roles'])
 
     def test_get_logging_values(self):
         auth_token = "token1"
@@ -278,11 +290,6 @@ class ContextTest(test_base.BaseTestCase):
         self.assertIn('request_id', d)
         self.assertIn('resource_uuid', d)
         self.assertIn('user_identity', d)
-        self.assertIn('instance', d)
-        self.assertIn('resource', d)
-        self.assertIn('user_name', d)
-        self.assertIn('project_name', d)
-        self.assertIn('color', d)
 
         self.assertEqual(auth_token, d['auth_token'])
         self.assertEqual(tenant, d['tenant'])
@@ -297,22 +304,6 @@ class ContextTest(test_base.BaseTestCase):
         user_identity = "%s %s %s %s %s" % (user, tenant, domain,
                                             user_domain, project_domain)
         self.assertEqual(user_identity, d['user_identity'])
-        self.assertEqual("", d['instance'])
-        self.assertEqual("", d['resource'])
-        self.assertEqual("", d['user_name'])
-        self.assertEqual("", d['project_name'])
-        self.assertEqual("", d['color'])
-
-    def test_get_logging_values_extra_attributes(self):
-        ctx = context.RequestContext()
-        d = ctx.get_logging_values()
-        self.assertEqual("", d['color'])
-        color = "red"
-        setattr(ctx, "color", color)
-        d = ctx.get_logging_values()
-        # Regardless of setting attribute, this is not affected as this
-        # is not included in to_dict().
-        self.assertEqual("", d['color'])
 
     def test_dict_empty_user_identity(self):
         ctx = context.RequestContext()
@@ -327,3 +318,22 @@ class ContextTest(test_base.BaseTestCase):
         id1 = context.generate_request_id()
         id2 = context.generate_request_id()
         self.assertNotEqual(id1, id2)
+
+    def test_policy_dict(self):
+        user = uuid.uuid4().hex
+        user_domain = uuid.uuid4().hex
+        tenant = uuid.uuid4().hex
+        project_domain = uuid.uuid4().hex
+        roles = [uuid.uuid4().hex, uuid.uuid4().hex, uuid.uuid4().hex]
+
+        ctx = context.RequestContext(user=user,
+                                     user_domain=user_domain,
+                                     tenant=tenant,
+                                     project_domain=project_domain,
+                                     roles=roles)
+
+        self.assertEqual({'user_id': user,
+                          'user_domain_id': user_domain,
+                          'project_id': tenant,
+                          'project_domain_id': project_domain,
+                          'roles': roles}, ctx.to_policy_values())

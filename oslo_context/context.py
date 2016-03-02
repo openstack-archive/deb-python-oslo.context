@@ -53,7 +53,7 @@ class RequestContext(object):
     def __init__(self, auth_token=None, user=None, tenant=None, domain=None,
                  user_domain=None, project_domain=None, is_admin=False,
                  read_only=False, show_deleted=False, request_id=None,
-                 resource_uuid=None, overwrite=True):
+                 resource_uuid=None, overwrite=True, roles=None):
         """Initialize the RequestContext
 
         :param overwrite: Set to False to ensure that the greenthread local
@@ -69,6 +69,7 @@ class RequestContext(object):
         self.read_only = read_only
         self.show_deleted = show_deleted
         self.resource_uuid = resource_uuid
+        self.roles = roles or []
         if not request_id:
             request_id = generate_request_id()
         self.request_id = request_id
@@ -78,6 +79,24 @@ class RequestContext(object):
     def update_store(self):
         """Store the context in the current thread."""
         _request_store.context = self
+
+    def to_policy_values(self):
+        """A dictionary of context attributes to enforce policy with.
+
+        oslo.policy enforcement requires a dictionary of attributes
+        representing the current logged in user on which it applies policy
+        enforcement. This dictionary defines a standard list of attributes that
+        should be available for enforcement across services.
+
+        It is expected that services will often have to override this method
+        with either deprecated values or additional attributes used by that
+        service specific policy.
+        """
+        return {'user_id': self.user,
+                'user_domain_id': self.user_domain,
+                'project_id': self.tenant,
+                'project_domain_id': self.project_domain,
+                'roles': self.roles}
 
     def to_dict(self):
         """Return a dictionary of context attributes."""
@@ -99,19 +118,12 @@ class RequestContext(object):
                 'auth_token': self.auth_token,
                 'request_id': self.request_id,
                 'resource_uuid': self.resource_uuid,
+                'roles': self.roles,
                 'user_identity': user_idt}
 
     def get_logging_values(self):
         """Return a dictionary of logging specific context attributes."""
-        # Define these attributes so that oslo.log does not throw an exception
-        # if used in any formatting strings
-        values = {'instance': '',
-                  'resource': '',
-                  'user_name': '',
-                  'project_name': '',
-                  'color': ''}
-        values.update(self.to_dict())
-
+        values = self.to_dict()
         return values
 
     @classmethod
@@ -142,6 +154,9 @@ class RequestContext(object):
         kwargs.setdefault('user_domain', environ.get('HTTP_X_USER_DOMAIN_ID'))
         kwargs.setdefault('project_domain',
                           environ.get('HTTP_X_PROJECT_DOMAIN_ID'))
+
+        roles = environ.get('HTTP_X_ROLES')
+        kwargs.setdefault('roles', roles.split(',') if roles else [])
 
         return cls(**kwargs)
 
