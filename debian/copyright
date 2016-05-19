@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: oslo.context
-Source: git://github.com/openstack/oslo.context.git
+Source: https://github.com/openstack/oslo.context
 
 Files: *
 Copyright: 2013-2014, OpenStack,
