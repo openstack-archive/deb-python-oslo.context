@@ -14,12 +14,10 @@ Build-Depends: debhelper (>= 9~),
                python3-all,
                python3-pbr (>= 1.8),
                python3-setuptools,
-Build-Depends-Indep: python-babel,
-                     python-coverage,
+Build-Depends-Indep: python-coverage,
                      python-hacking (>= 0.10.0),
                      python-oslosphinx (>= 2.5.0),
                      python-oslotest (>= 1.10.0),
-                     python3-babel,
                      python3-oslotest (>= 1.10.0),
                      subunit,
                      testrepository,
@@ -30,8 +28,7 @@ Homepage: https://github.com/openstack/oslo.context
 
 Package: python-oslo.context
 Architecture: all
-Depends: python-babel,
-         python-pbr (>= 1.8),
+Depends: python-pbr (>= 1.8),
          ${misc:Depends},
          ${python:Depends},
 Provides: python-oslo-context,
@@ -46,8 +43,7 @@ Description: WSGI context helpers for OpenStack - Python 2.x
 
 Package: python3-oslo.context
 Architecture: all
-Depends: python-babel,
-         python3-pbr (>= 1.8),
+Depends: python3-pbr (>= 1.8),
          ${misc:Depends},
          ${python:Depends},
 Provides: python3-oslo-context,
