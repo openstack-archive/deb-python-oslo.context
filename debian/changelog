@@ -8,6 +8,7 @@ python-oslo.context (2.3.0-1) UNRELEASED; urgency=medium
   [ Corey Bryant ]
   * New upstream release.
   * d/control: Align (Build-)Depends with upstream.
+  * d/gbp.conf: Update branch to debian/newton.
 
  -- Corey Bryant <corey.bryant@canonical.com>  Mon, 23 May 2016 15:23:07 -0400
 
