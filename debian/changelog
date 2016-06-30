@@ -1,3 +1,9 @@
+python-oslo.context (2.5.0-1) UNRELEASED; urgency=medium
+
+  * New upstream release for OpenStack Newton.
+
+ -- David Della Vecchia <ddv@canonical.com>  Thu, 30 Jun 2016 10:46:08 -0400
+
 python-oslo.context (2.4.0-1) experimental; urgency=medium
 
   [ Ondřej Nový ]
