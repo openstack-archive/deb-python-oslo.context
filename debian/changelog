@@ -5,6 +5,8 @@ python-oslo.context (2.5.0-1) experimental; urgency=medium
 
   [ Thomas Goirand ]
   * Switch to pkgos-dh_auto_{test,install}.
+  * Drop old python-oslo- transition packages, not needed in Ubuntu
+    anymore since Xenial is released.
 
  -- Thomas Goirand <zigo@debian.org>  Fri, 01 Jul 2016 14:27:49 +0000
 
