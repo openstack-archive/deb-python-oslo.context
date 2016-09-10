@@ -1,3 +1,20 @@
+python-oslo.context (2.9.0-2) UNRELEASED; urgency=medium
+
+  * d/control: Bump mininum version requirement of positional to 1.1.1,
+    as 1.0.1 causes issues in Barbican.
+
+ -- James Page <james.page@ubuntu.com>  Wed, 07 Sep 2016 10:03:59 +0100
+
+python-oslo.context (2.9.0-1) experimental; urgency=medium
+
+  [ Corey Bryant ]
+  * New upstream release.
+
+  [ James Page ]
+  * Align (Build-)Depends with upstream.
+
+ -- James Page <james.page@ubuntu.com>  Wed, 24 Aug 2016 16:08:11 +0100
+
 python-oslo.context (2.5.0-1) experimental; urgency=medium
 
   [ David Della Vecchia ]
