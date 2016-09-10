@@ -26,10 +26,11 @@ context or provide additional information in their specific WSGI pipeline
 or logging context.
 """
 
-import inspect
 import itertools
 import threading
 import uuid
+
+from positional import positional
 
 
 _request_store = threading.local()
@@ -44,7 +45,14 @@ _ENVIRON_HEADERS = {'auth_token': ['HTTP_X_AUTH_TOKEN',
                                'HTTP_X_TENANT_ID',
                                'HTTP_X_TENANT'],
                     'user_domain': ['HTTP_X_USER_DOMAIN_ID'],
-                    'project_domain': ['HTTP_X_PROJECT_DOMAIN_ID']}
+                    'project_domain': ['HTTP_X_PROJECT_DOMAIN_ID'],
+                    'user_name': ['HTTP_X_USER_NAME'],
+                    'project_name': ['HTTP_X_PROJECT_NAME',
+                                     'HTTP_X_TENANT_NAME'],
+                    'user_domain_name': ['HTTP_X_USER_DOMAIN_NAME'],
+                    'project_domain_name': ['HTTP_X_PROJECT_DOMAIN_NAME'],
+                    'request_id': ['openstack.request_id'],
+                    }
 
 
 def generate_request_id():
@@ -62,22 +70,38 @@ class RequestContext(object):
 
     user_idt_format = u'{user} {tenant} {domain} {user_domain} {p_domain}'
 
+    @positional(enforcement=positional.WARN)
     def __init__(self, auth_token=None, user=None, tenant=None, domain=None,
                  user_domain=None, project_domain=None, is_admin=False,
                  read_only=False, show_deleted=False, request_id=None,
-                 resource_uuid=None, overwrite=True, roles=None):
+                 resource_uuid=None, overwrite=True, roles=None,
+                 user_name=None, project_name=None, domain_name=None,
+                 user_domain_name=None, project_domain_name=None,
+                 is_admin_project=True):
         """Initialize the RequestContext
 
         :param overwrite: Set to False to ensure that the greenthread local
                           copy of the index is not overwritten.
+        :param is_admin_project: Whether the specified project is specified in
+                                 the token as the admin project. Defaults to
+                                 True for backwards compatibility.
+        :type is_admin_project: bool
         """
         self.auth_token = auth_token
         self.user = user
+        self.user_name = user_name
+        # NOTE (rbradfor):  tenant will become project
+        # See spec discussion on https://review.openstack.org/#/c/290907/
         self.tenant = tenant
+        self.project_name = project_name
         self.domain = domain
+        self.domain_name = domain_name
         self.user_domain = user_domain
+        self.user_domain_name = user_domain_name
         self.project_domain = project_domain
+        self.project_domain_name = project_domain_name
         self.is_admin = is_admin
+        self.is_admin_project = is_admin_project
         self.read_only = read_only
         self.show_deleted = show_deleted
         self.resource_uuid = resource_uuid
@@ -108,7 +132,8 @@ class RequestContext(object):
                 'user_domain_id': self.user_domain,
                 'project_id': self.tenant,
                 'project_domain_id': self.project_domain,
-                'roles': self.roles}
+                'roles': self.roles,
+                'is_admin_project': self.is_admin_project}
 
     def to_dict(self):
         """Return a dictionary of context attributes."""
@@ -131,20 +156,42 @@ class RequestContext(object):
                 'request_id': self.request_id,
                 'resource_uuid': self.resource_uuid,
                 'roles': self.roles,
-                'user_identity': user_idt}
+                'user_identity': user_idt,
+                'is_admin_project': self.is_admin_project}
 
     def get_logging_values(self):
         """Return a dictionary of logging specific context attributes."""
-        values = self.to_dict()
+        values = {'user_name': self.user_name,
+                  'project_name': self.project_name,
+                  'domain_name': self.domain_name,
+                  'user_domain_name': self.user_domain_name,
+                  'project_domain_name': self.project_domain_name}
+        values.update(self.to_dict())
         return values
 
     @classmethod
-    def from_dict(cls, values):
+    def from_dict(cls, values, **kwargs):
         """Construct a context object from a provided dictionary."""
-        allowed = [arg for arg in
-                   inspect.getargspec(RequestContext.__init__).args
-                   if arg != 'self']
-        kwargs = {k: v for (k, v) in values.items() if k in allowed}
+        kwargs.setdefault('auth_token', values.get('auth_token'))
+        kwargs.setdefault('user', values.get('user'))
+        kwargs.setdefault('tenant', values.get('tenant'))
+        kwargs.setdefault('domain', values.get('domain'))
+        kwargs.setdefault('user_domain', values.get('user_domain'))
+        kwargs.setdefault('project_domain', values.get('project_domain'))
+        kwargs.setdefault('is_admin', values.get('is_admin', False))
+        kwargs.setdefault('read_only', values.get('read_only', False))
+        kwargs.setdefault('show_deleted', values.get('show_deleted', False))
+        kwargs.setdefault('request_id', values.get('request_id'))
+        kwargs.setdefault('resource_uuid', values.get('resource_uuid'))
+        kwargs.setdefault('roles', values.get('roles'))
+        kwargs.setdefault('user_name', values.get('user_name'))
+        kwargs.setdefault('project_name', values.get('project_name'))
+        kwargs.setdefault('domain_name', values.get('domain_name'))
+        kwargs.setdefault('user_domain_name', values.get('user_domain_name'))
+        kwargs.setdefault('project_domain_name',
+                          values.get('project_domain_name'))
+        kwargs.setdefault('is_admin_project',
+                          values.get('is_admin_project', True))
         return cls(**kwargs)
 
     @classmethod
@@ -175,6 +222,13 @@ class RequestContext(object):
             roles = environ.get('HTTP_X_ROLES', environ.get('HTTP_X_ROLE'))
             roles = [r.strip() for r in roles.split(',')] if roles else []
             kwargs['roles'] = roles
+
+        if 'is_admin_project' not in kwargs:
+            # NOTE(jamielennox): we default is_admin_project to true because if
+            # nothing is provided we have to assume it is the admin project to
+            # make old policy continue to work.
+            is_admin_proj_str = environ.get('HTTP_X_IS_ADMIN_PROJECT', 'true')
+            kwargs['is_admin_project'] = is_admin_proj_str.lower() == 'true'
 
         return cls(**kwargs)
 
