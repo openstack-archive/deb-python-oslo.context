@@ -25,8 +25,8 @@ Build-Depends-Indep: python-coverage,
                      subunit,
                      testrepository,
 Standards-Version: 3.9.8
-Vcs-Browser: https://anonscm.debian.org/cgit/openstack/python-oslo.context.git/
-Vcs-Git: https://anonscm.debian.org/git/openstack/python-oslo.context.git
+Vcs-Browser: https://git.openstack.org/cgit/openstack/deb-python-oslo.context?h=debian%2Fnewton
+Vcs-Git: https://git.openstack.org/openstack/deb-python-oslo.context -b debian/newton
 Homepage: https://github.com/openstack/oslo.context
 
 Package: python-oslo.context

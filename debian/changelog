@@ -1,7 +1,12 @@
 python-oslo.context (2.9.0-2) UNRELEASED; urgency=medium
 
+  [ James Page ]
   * d/control: Bump mininum version requirement of positional to 1.1.1,
     as 1.0.1 causes issues in Barbican.
+
+  [ Ondřej Nový ]
+  * d/s/options: extend-diff-ignore of .gitreview
+  * d/control: Using OpenStack's Gerrit as VCS URLs.
 
  -- James Page <james.page@ubuntu.com>  Wed, 07 Sep 2016 10:03:59 +0100
 
