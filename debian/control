@@ -18,9 +18,9 @@ Build-Depends: debhelper (>= 9~),
 Build-Depends-Indep: python-coverage,
                      python-hacking (>= 0.10.0),
                      python-oslosphinx (>= 2.5.0),
-                     python-oslotest (>= 1.10.0),
+                     python-oslotest (>= 1:1.10.0),
                      python-positional (>= 1.1.1),
-                     python3-oslotest (>= 1.10.0),
+                     python3-oslotest (>= 1:1.10.0),
                      python3-positional (>= 1.1.1),
                      subunit,
                      testrepository,
@@ -35,9 +35,6 @@ Depends: python-pbr (>= 1.8),
          python-positional (>= 1.1.1),
          ${misc:Depends},
          ${python:Depends},
-Provides: python-oslo-context,
-Replaces: python-oslo-context (<< 0.3.0-1~),
-Breaks: python-oslo-context (<< 0.3.0-1~),
 Description: WSGI context helpers for OpenStack - Python 2.x
  The Oslo context library has helpers to maintain useful information
  about a request context. The request context is usually populated
@@ -51,9 +48,6 @@ Depends: python3-pbr (>= 1.8),
          python3-positional (>= 1.1.1),
          ${misc:Depends},
          ${python:Depends},
-Provides: python3-oslo-context,
-Replaces: python3-oslo-context (<< 0.3.0-1~),
-Breaks: python3-oslo-context (<< 0.3.0-1~),
 Description: WSGI context helpers for OpenStack - Python 3.x
  The Oslo context library has helpers to maintain useful information
  about a request context. The request context is usually populated
