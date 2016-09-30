@@ -1,0 +1,8 @@
+Code-Review+2: Joshua Harlow <jxharlow@godaddy.com>
+Workflow+1: Joshua Harlow <jxharlow@godaddy.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 30 Sep 2016 16:59:26 +0000
+Reviewed-on: https://review.openstack.org/374337
+Project: openstack/deb-python-oslo.context
+Branch: refs/heads/master
