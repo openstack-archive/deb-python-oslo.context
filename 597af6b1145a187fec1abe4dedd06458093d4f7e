@@ -1,0 +1,8 @@
+Code-Review+2: Doug Hellmann <doug@doughellmann.com>
+Workflow+1: Doug Hellmann <doug@doughellmann.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Sat, 21 Jan 2017 01:53:37 +0000
+Reviewed-on: https://review.openstack.org/423437
+Project: openstack/deb-python-oslo.context
+Branch: refs/heads/stable/ocata
