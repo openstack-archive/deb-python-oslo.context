@@ -1,0 +1,8 @@
+Code-Review+2: Davanum Srinivas (dims) <davanum@gmail.com>
+Workflow+1: Davanum Srinivas (dims) <davanum@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 03 Mar 2017 12:12:32 +0000
+Reviewed-on: https://review.openstack.org/440085
+Project: openstack/deb-python-oslo.context
+Branch: refs/heads/master
